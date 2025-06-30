@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.myboard"> <!-- namespace를 통해 접근한다. mapper파일마다 namespace가 달라야한다. -->
+	<select id="selectAll" resultType="MyBoardDto"> <!-- resultType을 적을때 Config에서 설정한 Alias 별칭을 사용 -->
+		SELECT *
+		FROM MYBOARD
+		ORDER BY MYNO DESC
+	</select>
+	
+	<!-- 컬럼명이랑 setter명이 다른 경우 해결법 -->
+	<resultMap type="com.my.dto.MyBoardDto" id="mbMap">
+		<result property="myno" column="MYNO"/>	<!-- property는 setter명이라 생각해도 된다. -->
+		<result property="myname" column="MYNAME"/>
+		<result property="mytitle" column="MYTITLE"/>
+		<result property="mycontent" column="MYCONTENT"/>
+		<result property="mydate" column="MYDATE"/>
+	</resultMap>
+	
+	<select id="selectOne" parameterType="int" resultMap="mbMap">
+		SELECT *
+		FROM MYBOARD
+		WHERE MYNO = #{myno}
+	</select>
+	<!-- ?대신 #{}형태로 값을 집어 넣는다. -->
+	
+	<select id="myinsert" parameterType="MyBoardDto">
+		INSERT INTO MYBOARD
+		VALUES(SEQ_MYBOARD.NEXTVAL, #{myname}, #{mytitle}, #{mycontent}, SYSDATE)
+	</select>
+	
+</mapper>
