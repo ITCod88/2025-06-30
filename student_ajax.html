@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+	function getParam(){
+		let name = "name=" + encodeURIComponent($("#name").val());
+		let kor = "kor=" + $("#kor").val();
+		let eng = "eng=" + $("#eng").val();
+		let math = "math=" + $("#math").val();
+		
+		return "?" + name + "&" + kor + "&" + eng + "&" + math;
+	}
+	
+	$(function(){
+		$("#process").click(function(){
+			$.ajax({
+				url:"calc"+getParam(),
+				dataType:"json",
+				success:function(msg){
+					console.log(msg.sum);
+					$("#result").html(msg.name+"의 총점은"+msg.sum+"이고, 평균은 "+msg.avg+"입니다.");
+				},
+				error:function(){
+					alert("실패ㅜㅜ");
+				}
+			});
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>성적 입력</h1>
+	이름 : <input type="text" id="name"><br>
+	국어 : <input type="text" id="kor"><br>
+	영어 : <input type="text" id="eng"><br>
+	수학 : <input type="text" id="math"><br>
+	<input type="button" id="process" value="성적 처리"><br>
+	<hr>
+	<div id="result"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+<!--  
+	동기통신
+	클라이언트 측에서 요청을 보내게되면 그러한 요청을 서버측에서 적절히 잘 받아서 처리 후에 특정 페이지(html)를 응답해준다. 브라우저의 화면이 바뀌는 것
+	
+	비동기통신
+	나머지 페이지 전체는 가만히 있지만 특정 페이지 일부만 요청을 하고 응답을 받는다. 화면은 그대로 있지만 내부적으로 특정 스크립트 코드가 혼자 뒤에서 조용히 통신을 한다.
+	보통은 데이터를 받아온다고 생각하는게 좋다. JSON형태의 데이터를 사용
+	ex) 옛날 네이버 아이디, 패스워드 입력하는 것
+	
+	JQ : Ajax
+	Js : fetch(), XMLHTTPRequest
+-->
+
+
+
+
+
+
+
+
